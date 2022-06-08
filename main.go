@@ -46,9 +46,10 @@ type FlightInfo struct {
 }
 
 type Options struct {
-	Day      string `short:"d" long:"day" description:"date selection: 08.06.2022" required:"false"`
-	Interval int    `short:"i" long:"interval" description:"Refresh interval in seconds" default:"0"`
-	Limit    int    `short:"l" long:"limit" description:"Limit to X results" default:"0"`
+	Day      string  `short:"d" long:"day" description:"date selection: 08.06.2022" required:"false"`
+	Interval int     `short:"i" long:"interval" description:"Refresh interval in seconds" default:"0"`
+	Limit    int     `short:"l" long:"limit" description:"Limit to X results" default:"0"`
+	Points   float64 `short:"p" long:"points" description:"Only show flights >= XC points" default:"0"`
 }
 
 var fields = []string{
@@ -172,6 +173,9 @@ func main() {
 
 		for i := 0; i < len(f.Data); i++ {
 			fp, _ := strconv.ParseFloat(f.Data[i].BestTaskPoints, 32)
+			if options.Points > 0 && fp <= options.Points {
+				continue
+			}
 			points := fmt.Sprintf("%.2f", fp)
 			table.Append([]string{
 				f.Data[i].FirstName,

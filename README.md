@@ -12,6 +12,7 @@ Application Options:
   -d, --day=      date selection: 08.06.2022
   -i, --interval= Refresh interval in seconds (default: 0)
   -l, --limit=    Limit to X results (default: 0)
+  -p, --points=   Only show flights >= XC points (default: 0)
 
 Help Options:
   -h, --help      Show this help message
