@@ -51,6 +51,14 @@ type Options struct {
 	Limit    int    `short:"l" long:"limit" description:"Limit to X results" default:"0"`
 }
 
+var fields = []string{
+	"Name",
+	"Surname",
+	"XC-Points",
+	"Takeoff",
+	"Landing",
+}
+
 func json_loads(data []byte) Flights {
 	var resp Flights
 	err := json.Unmarshal([]byte(data), &resp)
@@ -90,13 +98,7 @@ func clearconsole(options Options) {
 
 func drawTable() tablewriter.Table {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{
-		"Name",
-		"Surname",
-		"XC-Points",
-		"Takeoff",
-		"Landing",
-	})
+	table.SetHeader(fields)
 	table.SetBorder(false)
 	table.SetHeaderColor(
 		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
