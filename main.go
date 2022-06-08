@@ -96,6 +96,17 @@ func clearconsole(options Options) {
 	}
 }
 
+func day(options Options) string {
+	currentTime := time.Now()
+	var day string
+	if options.Day == "" {
+		day = currentTime.Format("02.01.2006")
+	} else {
+		day = options.Day
+	}
+	return day
+}
+
 func drawTable() tablewriter.Table {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader(fields)
@@ -134,13 +145,7 @@ func main() {
 		}
 	}
 
-	currentTime := time.Now()
-	var day string
-	if options.Day == "" {
-		day = currentTime.Format("02.01.2006")
-	} else {
-		day = options.Day
-	}
+	day := day(options)
 	Api := struct {
 		url string
 	}{
