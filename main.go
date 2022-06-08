@@ -79,6 +79,14 @@ func success(resp Flights) bool {
 	return false
 }
 
+func clearconsole(options Options) {
+	if options.Interval > 0 {
+		goterm.Clear()
+		goterm.MoveCursor(1, 1)
+		goterm.Flush()
+	}
+}
+
 func main() {
 	var options Options
 	var parser = flags.NewParser(&options, flags.Default)
@@ -111,9 +119,7 @@ func main() {
 	Api.url = Api.url + day
 
 	for {
-		goterm.Clear()
-		goterm.MoveCursor(1, 1)
-		goterm.Flush()
+		clearconsole(options)
 
 		f := httpReq(Api.url)
 		if !success(f) {
