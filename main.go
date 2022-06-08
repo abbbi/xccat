@@ -48,6 +48,7 @@ type FlightInfo struct {
 type Options struct {
 	Day      string `short:"d" long:"day" description:"date selection: 08.06.2022" required:"false"`
 	Interval int    `short:"i" long:"interval" description:"Refresh interval in seconds" default:"0"`
+	Limit    int    `short:"l" long:"limit" description:"Limit to X results" default:"0"`
 }
 
 func json_loads(data []byte) Flights {
@@ -155,6 +156,7 @@ func main() {
 			tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
 			tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
 		)
+
 		for i := 0; i < len(f.Data); i++ {
 			fp, _ := strconv.ParseFloat(f.Data[i].BestTaskPoints, 32)
 			points := fmt.Sprintf("%.2f", fp)
@@ -165,6 +167,10 @@ func main() {
 				f.Data[i].TakeoffLocation,
 				f.Data[i].LandingLocation,
 			})
+
+			if options.Limit > 0 && i+1 >= options.Limit {
+				break
+			}
 		}
 		table.Render()
 		sleep := time.Duration(1.15*float64(options.Interval)) * time.Second
