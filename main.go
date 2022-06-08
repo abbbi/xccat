@@ -161,11 +161,12 @@ func main() {
 
 	Api.url = Api.url + day
 
-	table := drawTable(options)
 	for {
+		table := drawTable(options)
 		clearconsole(options)
 
-		f := httpReq(Api.url)
+		var f Flights
+		f = httpReq(Api.url)
 		if !success(f) {
 			logrus.Fatalf("Request failed: [%s]", f.Message)
 		}
