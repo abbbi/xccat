@@ -88,6 +88,34 @@ func clearconsole(options Options) {
 	}
 }
 
+func drawTable() tablewriter.Table {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{
+		"Name",
+		"Surname",
+		"XC-Points",
+		"Takeoff",
+		"Landing",
+	})
+	table.SetBorder(false)
+	table.SetHeaderColor(
+		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.BgRedColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
+	)
+	table.SetColumnColor(
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
+	)
+
+	return *table
+}
+
 func main() {
 	var options Options
 	var parser = flags.NewParser(&options, flags.Default)
@@ -133,29 +161,7 @@ func main() {
 			return floatNumA > floatNumB
 		})
 
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{
-			"Name",
-			"Surname",
-			"XC-Points",
-			"Takeoff",
-			"Landing",
-		})
-		table.SetBorder(false)
-		table.SetHeaderColor(
-			tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
-			tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
-			tablewriter.Colors{tablewriter.BgRedColor, tablewriter.FgWhiteColor},
-			tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
-			tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
-		)
-		table.SetColumnColor(
-			tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
-			tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
-			tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
-			tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
-			tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
-		)
+		table := drawTable()
 
 		for i := 0; i < len(f.Data); i++ {
 			fp, _ := strconv.ParseFloat(f.Data[i].BestTaskPoints, 32)
