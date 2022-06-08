@@ -1,7 +1,12 @@
 # xccat
 Show latest DHV-XC flights on console
 
-![Alt text](xccat.jpg?raw=true "Title")
+ * "top" like refresh interval
+ *  Colored or ascii only output
+ *  Limit results
+ *  Filter results based on XC points
+
+![Alt text](xccat.jpg?raw=true "Screenshot")
 
 # usage
 ```
@@ -13,7 +18,8 @@ Application Options:
   -i, --interval= Refresh interval in seconds (default: 0)
   -l, --limit=    Limit to X results (default: 0)
   -p, --points=   Only show flights >= XC points (default: 0)
-
+  -a, --ascii     Dont display colors, ascii only output
+  
 Help Options:
   -h, --help      Show this help message
 ```
