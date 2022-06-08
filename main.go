@@ -50,6 +50,7 @@ type Options struct {
 	Interval int     `short:"i" long:"interval" description:"Refresh interval in seconds" default:"0"`
 	Limit    int     `short:"l" long:"limit" description:"Limit to X results" default:"0"`
 	Points   float64 `short:"p" long:"points" description:"Only show flights >= XC points" default:"0"`
+	Ascii    bool    `short:"a" long:"ascii" description:"Dont display colors, ascii only output"`
 }
 
 var fields = []string{
@@ -108,10 +109,15 @@ func day(options Options) string {
 	return day
 }
 
-func drawTable() tablewriter.Table {
+func drawTable(options Options) tablewriter.Table {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader(fields)
 	table.SetBorder(false)
+
+	if options.Ascii {
+		return *table
+	}
+
 	table.SetHeaderColor(
 		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
 		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
@@ -155,6 +161,7 @@ func main() {
 
 	Api.url = Api.url + day
 
+	table := drawTable(options)
 	for {
 		clearconsole(options)
 
@@ -168,8 +175,6 @@ func main() {
 			floatNumB, _ := strconv.ParseFloat(f.Data[j].BestTaskPoints, 32)
 			return floatNumA > floatNumB
 		})
-
-		table := drawTable()
 
 		for i := 0; i < len(f.Data); i++ {
 			fp, _ := strconv.ParseFloat(f.Data[i].BestTaskPoints, 32)
