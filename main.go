@@ -171,6 +171,11 @@ func main() {
 			logrus.Fatalf("Request failed: [%s]", f.Message)
 		}
 
+		if len(f.Data) == 0 {
+			fmt.Println("No results for today:", day)
+			break
+		}
+
 		sort.SliceStable(f.Data, func(i, j int) bool {
 			floatNumA, _ := strconv.ParseFloat(f.Data[i].BestTaskPoints, 32)
 			floatNumB, _ := strconv.ParseFloat(f.Data[j].BestTaskPoints, 32)
