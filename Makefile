@@ -1,4 +1,4 @@
-VERSION:=0.4
+VERSION:=0.5
 EXE:=xccat
 
 all: windows linux_amd64 release
