@@ -43,6 +43,7 @@ type FlightInfo struct {
 	BestTaskPoints  string `json:"besttaskpoints"`
 	TakeoffLocation string `json:"takeofflocation"`
 	LandingLocation string `json:"landinglocation"`
+	FlightID        string `json:"idflight"`
 }
 
 type Options struct {
@@ -54,11 +55,12 @@ type Options struct {
 }
 
 var fields = []string{
+	"#",
 	"Name",
-	"Surname",
 	"XC-Points",
 	"Takeoff",
 	"Landing",
+	"Flight ID",
 }
 
 func json_loads(data []byte) Flights {
@@ -72,14 +74,11 @@ func json_loads(data []byte) Flights {
 }
 
 func httpReq(url string) Flights {
-	logrus.Debug(url)
-
 	response, error := http.Get(url)
 	if error != nil {
 		logrus.Fatal(error)
 	}
 	body, _ := ioutil.ReadAll(response.Body)
-	logrus.Debugf("Response: [%s]", string(body))
 	return json_loads(body)
 }
 
@@ -119,9 +118,10 @@ func drawTable(options Options) tablewriter.Table {
 	}
 
 	table.SetHeaderColor(
-		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
 		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
 		tablewriter.Colors{tablewriter.BgRedColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
 		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
 		tablewriter.Colors{tablewriter.BgCyanColor, tablewriter.FgWhiteColor},
 	)
@@ -129,6 +129,7 @@ func drawTable(options Options) tablewriter.Table {
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor},
 	)
@@ -189,11 +190,12 @@ func main() {
 			}
 			points := fmt.Sprintf("%.2f", fp)
 			table.Append([]string{
-				f.Data[i].FirstName,
-				f.Data[i].LastName,
+				fmt.Sprintf("%d", i+1),
+				fmt.Sprintf("%s %s", f.Data[i].FirstName, f.Data[i].LastName),
 				points,
 				f.Data[i].TakeoffLocation,
 				f.Data[i].LandingLocation,
+				f.Data[i].FlightID,
 			})
 
 			if options.Limit > 0 && i+1 >= options.Limit {
