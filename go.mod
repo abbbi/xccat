@@ -1,6 +1,6 @@
 module github.com/abbbi/xccat
 
-go 1.15
+go 1.18
 
 require (
 	github.com/buger/goterm v1.0.4
