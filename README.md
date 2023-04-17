@@ -1,5 +1,5 @@
 # xccat
-Show latest DHV-XC flights on console
+Shows latest [DHV-XC](https://www.dhv-xc.de)  flights on console
 
  * "top" like refresh interval
  *  Colored or ascii only output
