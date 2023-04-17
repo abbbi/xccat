@@ -67,7 +67,7 @@ func json_loads(data []byte) Flights {
 	var resp Flights
 	err := json.Unmarshal([]byte(data), &resp)
 	if err != nil {
-		logrus.Error("Cant load json response:")
+		logrus.Error("Can't load json response:")
 		logrus.Fatal(err)
 	}
 	return resp
