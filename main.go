@@ -1,17 +1,17 @@
 /*
-	Copyright (C) 2022  Michael Ablassmeier <abi@grinser.de>
+		Copyright (C) 2022  Michael Ablassmeier <abi@grinser.de>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	    This program is free software: you can redistribute it and/or modify
+	    it under the terms of the GNU General Public License as published by
+	    the Free Software Foundation, either version 3 of the License, or
+	    (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License along
-    with this program.  If not, see <https://www.gnu.org/licenses/>.
+	    This program is distributed in the hope that it will be useful,
+	    but WITHOUT ANY WARRANTY; without even the implied warranty of
+	    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	    GNU General Public License for more details.
+	    You should have received a copy of the GNU General Public License along
+	    with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 package main
 
@@ -23,6 +23,7 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/buger/goterm"
@@ -38,12 +39,13 @@ type Flights struct {
 }
 
 type FlightInfo struct {
-	LastName        string `json:"lastname"`
-	FirstName       string `json:"firstname"`
-	BestTaskPoints  string `json:"besttaskpoints"`
-	TakeoffLocation string `json:"takeofflocation"`
-	LandingLocation string `json:"landinglocation"`
-	FlightID        string `json:"idflight"`
+	LastName            string `json:"lastname"`
+	FirstName           string `json:"firstname"`
+	BestTaskPoints      string `json:"besttaskpoints"`
+	TakeoffLocation     string `json:"takeofflocation"`
+	TakeoffWaypointName string `json:"takeoffwaypointname"`
+	LandingLocation     string `json:"landinglocation"`
+	FlightID            string `json:"idflight"`
 }
 
 type Options struct {
@@ -52,6 +54,7 @@ type Options struct {
 	Limit    int     `short:"l" long:"limit" description:"Limit to X results" default:"0"`
 	Points   float64 `short:"p" long:"points" description:"Only show flights >= XC points" default:"0"`
 	Ascii    bool    `short:"a" long:"ascii" description:"Dont display colors, ascii only output"`
+	TakeOff  string  `short:"f" long:"takeoff" description:"Filter by takeoff: takeoff must include string" required:"false"`
 }
 
 var fields = []string{
@@ -188,12 +191,15 @@ func main() {
 			if options.Points > 0 && fp <= options.Points {
 				continue
 			}
+			if options.TakeOff != "" && !strings.Contains(f.Data[i].TakeoffWaypointName, options.TakeOff) {
+				continue
+			}
 			points := fmt.Sprintf("%.2f", fp)
 			table.Append([]string{
 				fmt.Sprintf("%d", i+1),
 				fmt.Sprintf("%s %s", f.Data[i].FirstName, f.Data[i].LastName),
 				points,
-				f.Data[i].TakeoffLocation,
+				f.Data[i].TakeoffWaypointName,
 				f.Data[i].LandingLocation,
 				f.Data[i].FlightID,
 			})

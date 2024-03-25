@@ -5,6 +5,7 @@ Shows latest [DHV-XC](https://www.dhv-xc.de)  flights on console
  *  Colored or ascii only output
  *  Limit results
  *  Filter results based on XC points
+ *  Filter results based on takeoff (for example -f Wallberg)
 
 ![Alt text](xccat.jpg?raw=true "Screenshot")
 
@@ -19,6 +20,7 @@ Application Options:
   -l, --limit=    Limit to X results (default: 0)
   -p, --points=   Only show flights >= XC points (default: 0)
   -a, --ascii     Dont display colors, ascii only output
+  -f, --takeoff=  Filter by takeoff: takeoff must include string
   
 Help Options:
   -h, --help      Show this help message
