@@ -7,6 +7,8 @@ Shows latest [DHV-XC](https://www.dhv-xc.de)  flights on console
  *  Filter results based on XC points
  *  Filter results based on takeoff (for example -f Wallberg)
 
+See also: [xcup](https://github.com/abbbi/xcup) for publishing flights.
+
 ![Alt text](xccat.jpg?raw=true "Screenshot")
 
 # usage
